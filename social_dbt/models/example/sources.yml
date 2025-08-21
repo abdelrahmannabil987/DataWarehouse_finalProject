@@ -1,0 +1,65 @@
+# this file contain all resources of raw data 
+# for integration later with any model depend on this file 
+# changing db or schema is fine 
+# ex: select * from {{ source('raw_data', 'DIM_PLATFORM') }}
+# help in data lenage ---> pipeLine 
+version: 2
+
+sources:
+  - name: raw_data
+    database: SOCIAL_PRODUCTIVITY
+    schema: MAIN
+    tables:
+
+      # Dimension Tables
+      - name: DIM_WELLBEING
+        description: "Table with wellbeing info"
+        columns:
+          - name: WELLBEING_ID
+            tests:
+              - unique
+              - not_null
+          
+
+      - name: DIM_PLATFORM
+        description: "Table with social platform info"
+        columns:
+          - name: PLATFORM_ID
+            tests:
+              - unique
+              - not_null
+
+      - name: DIM_USER
+        description: "Table with user info"
+        columns:
+          - name: USER_ID
+            tests:
+              - unique
+              - not_null
+          - name: GENDER
+            tests:
+              - accepted_values:
+                  values: ['M', 'F', 'Other']
+
+      - name: DIM_SOCIAL_BEHAVIOUR
+        description: "Table with social behaviour info"
+        columns:
+          - name: DIGITAL_ID
+            tests:
+              - unique
+              - not_null
+          - name: USES_FOCUS_APPS
+            tests:
+              - accepted_values:
+                  values: ['TRUE','FALSE']
+              
+
+      # Fact Table
+      - name: FACT_PRODUCTIVITY
+        description: "Fact table of productivity"
+        columns:
+          - name: FACT_ID
+            tests:
+              - unique
+              - not_null
+         
